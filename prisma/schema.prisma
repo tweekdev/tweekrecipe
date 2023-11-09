@@ -18,13 +18,13 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  session_state     String?
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
-  session_state     String?
+  id_token          String? @db.Text
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -57,9 +57,6 @@ model User {
   email     String              @unique
   password  String
   phone     String?
-  address   String?
-  geoLat    Float?              @map(name: "geo_lat")
-  geoLon    Float?              @map(name: "geo_lon")
   role      Role                @default(USER)
   createdAt DateTime            @default(now()) @map(name: "created_at")
   updatedAt DateTime            @updatedAt @map(name: "updated_at")
